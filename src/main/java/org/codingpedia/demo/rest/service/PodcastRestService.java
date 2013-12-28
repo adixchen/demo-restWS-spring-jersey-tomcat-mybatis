@@ -18,7 +18,14 @@ import org.codingpedia.demo.rest.dao.PodcastDao;
 import org.codingpedia.demo.rest.entities.Podcast;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * 
+ * For code explanation, look at my post <a href="http://www.codingpedia.org">Post title</a>
+ * @author amacoder
+ *
+ */
 @Component
 @Path("/podcasts")
 public class PodcastRestService {
@@ -29,17 +36,16 @@ public class PodcastRestService {
 	private PodcastDao podcastDao; 
 	
 	/************************************ CREATE ************************************/
-	@POST @Path("create")
+	/**
+	 * A list of resources (here podcasts) provided  in json format will be added
+	 * to the database.
+	 * 
+	 * @param podcasts
+	 * @return
+	 */
+	@POST
 	@Consumes({MediaType.APPLICATION_JSON})
-	@Produces({MediaType.TEXT_HTML})	
-	public Response createPodcast(Podcast podcast) {
-		Long id = podcastDao.createPodcast(podcast);
-		
-		return Response.status(201).entity(buildNewPodcastResourceURL(id)).build(); 		
-	}	
-		
-	@POST @Path("createPodcasts")
-	@Consumes({MediaType.APPLICATION_JSON})
+	@Transactional
 	public Response createPodcasts(List<Podcast> podcasts) {
 		for(Podcast podcast : podcasts){
 			podcastDao.createPodcast(podcast);			
@@ -48,9 +54,37 @@ public class PodcastRestService {
 		return Response.status(204).build(); 	
 	}
 	
+	/**
+	 * Adds a new resource (podcast) from the given json format (at least title and feed elements are required
+	 * at the DB level)
+	 * 
+	 * @param podcast
+	 * @return
+	 */
+	@POST @Path("create")
+	@Consumes({MediaType.APPLICATION_JSON})
+	@Produces({MediaType.TEXT_HTML})	
+	@Transactional
+	public Response createPodcast(Podcast podcast) {
+		Long id = podcastDao.createPodcast(podcast);
+		
+		return Response.status(201).entity(buildNewPodcastResourceURL(id)).build(); 		
+	}	
+	
+	/**
+	 * Adds a new resource (podcast) from "form" (at least title and feed elements are required
+	 * at the DB level)
+	 * 
+	 * @param title
+	 * @param linkOnPodcastpedia
+	 * @param feed
+	 * @param description
+	 * @return
+	 */
 	@POST @Path("create")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces({MediaType.TEXT_HTML})	
+	@Transactional
 	public Response createPodcastFromForm(
 						@FormParam("title") String title,
 						@FormParam("linkOnPodcastpedia") String linkOnPodcastpedia,
@@ -65,6 +99,10 @@ public class PodcastRestService {
 
 	
 	/************************************ READ ************************************/
+	/**
+	 * Returns all resources (podcasts) from the database
+	 * @return
+	 */
 	@GET
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public List<Podcast> getPodcasts() {
@@ -88,10 +126,11 @@ public class PodcastRestService {
 	 * @param id
 	 * @param podcast
 	 * @return
-	 */
+	 */	
 	@PUT @Path("{id}")
 	@Consumes({MediaType.APPLICATION_JSON})
 	@Produces({MediaType.TEXT_HTML})	
+	@Transactional
 	public Response updatePodcastById(@PathParam("id") Long id, Podcast podcast) {
 		if(podcast.getId() == null) podcast.setId(id);
 		String message; 
