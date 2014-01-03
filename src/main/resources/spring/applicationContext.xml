@@ -12,7 +12,7 @@
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context.xsd">
  
-	<context:component-scan base-package="de.kabeldeutschland.delphi.*" />
+	<context:component-scan base-package="org.codingpedia.demo.rest.*" />
  
 	<!--
 		Instruct Spring to perform declarative transaction management

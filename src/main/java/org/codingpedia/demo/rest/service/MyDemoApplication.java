@@ -4,15 +4,20 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
 
-public class MyApplication extends ResourceConfig {
+/**
+ * Registers the components to be used by the JAX-RS application  
+ * 
+ * @author ama
+ *
+ */
+public class MyDemoApplication extends ResourceConfig {
 
     /**
 	* Register JAX-RS application components.
 	*/	
-	public MyApplication(){
+	public MyDemoApplication(){
 		register(RequestContextFilter.class);
 		register(PodcastRestService.class);
-		register(JacksonFeature.class);
-		
+		register(JacksonFeature.class);		
 	}
 }

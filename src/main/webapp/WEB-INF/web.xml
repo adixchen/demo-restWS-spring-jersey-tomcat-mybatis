@@ -3,8 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 	<display-name>Demo - Restful Web Application</display-name>
- 
-  
+   
 	<listener>
 		<listener-class>
 			org.springframework.web.context.ContextLoaderListener
@@ -23,7 +22,7 @@
 		</servlet-class>
 		<init-param>
 			<param-name>javax.ws.rs.Application</param-name>
-			<param-value>org.codingpedia.demo.rest.service.MyApplication</param-value>			
+			<param-value>org.codingpedia.demo.rest.service.MyDemoApplication</param-value>			
 		</init-param>		
 		<load-on-startup>1</load-on-startup>
 	</servlet>
@@ -34,10 +33,9 @@
 	</servlet-mapping>
  
 	<resource-ref>
-        <description>Database resource for podcastpedia web application </description>
+        <description>Database resource for rest demo web application </description>
         <res-ref-name>jdbc/restDemoDB</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>
         <res-auth>Container</res-auth>
-    </resource-ref>
-	
+    </resource-ref>	
 </web-app>

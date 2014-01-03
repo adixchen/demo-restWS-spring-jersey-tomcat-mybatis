@@ -7,9 +7,9 @@
   <name>DemoRestWS</name>
   <description>Example of building REST web services with spring, jersey and mybatis on a tomcat server</description>
 
-  <properties>
-     <spring.version>3.2.6.RELEASE</spring.version>
-  </properties>
+	<properties>
+	   <spring.version>3.2.6.RELEASE</spring.version>
+	</properties>
   
 	<repositories>
 		<repository>
@@ -20,7 +20,6 @@
 	</repositories>
  
 	<dependencies>
- 
 		<!-- Jersey-Spring 
 			 http://mvnrepository.com/artifact/org.glassfish.jersey.ext/jersey-spring3/2.4.1 -->			
 		<dependency>
@@ -77,8 +76,7 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
 			<version>${spring.version}</version>
-		</dependency>
- 
+		</dependency> 
 
 		<!-- Mybatis -->
 		<dependency>
@@ -99,14 +97,14 @@
 			<version>5.1.27</version>
 			<scope>provided</scope>
 		</dependency>
+		
 	    <!-- tomcat jdbc -->			   
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-jdbc</artifactId>
 			<version>7.0.35</version>
 			<scope>provided</scope>
-		</dependency>			
-				
+		</dependency>							
 	</dependencies>
 		
 </project>  
