@@ -109,11 +109,46 @@
 		
 		<!-- testing -->
 		<dependency>
+		  <groupId>org.springframework</groupId>
+		  <artifactId>spring-test</artifactId>
+		  <version>${spring.version}</version>
+		</dependency>		
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+		</dependency>
+		<dependency>
 			<groupId>com.jayway.restassured</groupId>
 			<artifactId>rest-assured</artifactId>
 			<version>2.1.0</version>
+		    <exclusions>
+		        <!-- Exclude Groovy because of classpath issue -->
+		        <exclusion>
+		            <groupId>org.codehaus.groovy</groupId>
+		            <artifactId>groovy</artifactId>
+		        </exclusion>
+		    </exclusions>			
 			<scope>test</scope>
-		</dependency>						
+		</dependency>	
+		<dependency>
+		    <groupId>org.codehaus.groovy</groupId>
+		    <artifactId>groovy-all</artifactId>
+		    <!-- Needs to be the same version that REST Assured depends on -->
+		    <version>2.2.0</version>
+		    <scope>test</scope>
+		</dependency>		
+		<dependency>
+			<groupId>com.sun.jersey.jersey-test-framework</groupId>
+			<artifactId>jersey-test-framework-core</artifactId>
+			<version>1.9</version>
+			<scope>test</scope>
+		</dependency>		
+		<dependency>
+		    <groupId>org.glassfish.jersey.test-framework.providers</groupId>
+		    <artifactId>jersey-test-framework-provider-external</artifactId>
+		    <version>2.5.1</version>
+		</dependency>							
 	</dependencies>
 		
 	<build>
