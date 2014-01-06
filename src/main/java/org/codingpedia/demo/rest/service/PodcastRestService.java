@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
- * For code explanation, look at my post <a href="http://www.codingpedia.org">Post title</a>
+ * Service class that handles REST requests
  * @author amacoder
  *
  */
@@ -36,23 +36,6 @@ public class PodcastRestService {
 	private PodcastDao podcastDao; 
 	
 	/************************************ CREATE ************************************/
-	/**
-	 * A list of resources (here podcasts) provided  in json format will be added
-	 * to the database.
-	 * 
-	 * @param podcasts
-	 * @return
-	 */
-	@POST
-	@Consumes({MediaType.APPLICATION_JSON})
-	@Transactional
-	public Response createPodcasts(List<Podcast> podcasts) {
-		for(Podcast podcast : podcasts){
-			podcastDao.createPodcast(podcast);			
-		}
-		
-		return Response.status(204).build(); 	
-	}
 	
 	/**
 	 * Adds a new resource (podcast) from the given json format (at least title and feed elements are required
@@ -61,7 +44,7 @@ public class PodcastRestService {
 	 * @param podcast
 	 * @return
 	 */
-	@POST @Path("create")
+	@POST 
 	@Consumes({MediaType.APPLICATION_JSON})
 	@Produces({MediaType.TEXT_HTML})	
 	@Transactional
@@ -81,7 +64,7 @@ public class PodcastRestService {
 	 * @param description
 	 * @return
 	 */
-	@POST @Path("create")
+	@POST 
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces({MediaType.TEXT_HTML})	
 	@Transactional
@@ -97,6 +80,23 @@ public class PodcastRestService {
 		return Response.status(201).entity(buildNewPodcastResourceURL(id)).build(); 		
 	}	
 
+	/**
+	 * A list of resources (here podcasts) provided in json format will be added
+	 * to the database.
+	 * 
+	 * @param podcasts
+	 * @return
+	 */
+	@POST @Path("list")
+	@Consumes({MediaType.APPLICATION_JSON})
+	@Transactional
+	public Response createPodcasts(List<Podcast> podcasts) {
+		for(Podcast podcast : podcasts){
+			podcastDao.createPodcast(podcast);			
+		}
+		
+		return Response.status(204).build(); 	
+	}
 	
 	/************************************ READ ************************************/
 	/**
@@ -111,8 +111,13 @@ public class PodcastRestService {
 		
 	@GET @Path("{id}")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Podcast findById(@PathParam("id") Long id) {		
-		return podcastDao.getPodcastById(id);
+	public Response findById(@PathParam("id") Long id) {		
+		Podcast podcastById = podcastDao.getPodcastById(id);
+		if(podcastById != null) {
+			return Response.status(200).entity(podcastById).build(); 
+		} else {
+			return Response.status(404).entity("The podcast with the id " + id + " does not exist").build();
+		}
 	}
 
 	
@@ -164,22 +169,18 @@ public class PodcastRestService {
 	/************************************ DELETE ************************************/
 	@DELETE @Path("{id}")
 	@Produces({MediaType.TEXT_HTML})
+	@Transactional
 	public Response deletePodcastById(@PathParam("id") Long id) {
-		String responseMessage;
-		int status;
 		if(podcastDao.deletePodcastById(id) == 1){
-			responseMessage = "Podcast successfully removed";
-			status = 204;
+			return Response.status(204).build();
 		} else {
-			responseMessage = "Podcast with the id " + id + " is not present in the database";
-			status = 404;
+			return Response.status(404).entity("Podcast with the id " + id + " is not present in the database").build();
 		}
-				
-		return Response.status(status).entity(responseMessage).build();
 	}
 	
 	@DELETE
 	@Produces({MediaType.TEXT_HTML})
+	@Transactional
 	public Response deletePodcasts() {
 		podcastDao.deletePodcasts();
 		return Response.status(200).entity("All podcasts have been successfully removed").build();
