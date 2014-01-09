@@ -13,7 +13,10 @@
 		http://www.springframework.org/schema/context/spring-context.xsd">
  
 	<context:component-scan base-package="org.codingpedia.demo.rest.*" />
- 
+    
+    <!-- import the dataSource definition -->
+    <import resource="data-source.xml"/> 
+     
 	<!--
 		Instruct Spring to perform declarative transaction management
 		automatically on annotated classes.

@@ -202,5 +202,11 @@ public class PodcastRestService {
 		message.append("</a>");
 		
 		return message.toString();
+	}
+
+	public void setPodcastDao(PodcastDao podcastDao) {
+		this.podcastDao = podcastDao;
 	}	
+	
+	
 }
