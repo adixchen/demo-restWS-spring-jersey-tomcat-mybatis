@@ -29,8 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @Path("/podcasts")
 public class PodcastRestService {
-
-	private static final String HOST = "http://localhost:8080/demo-rest-spring-jersey-tomcat-mybatis-0.0.1-SNAPSHOT";
 	
 	@Autowired
 	private PodcastDao podcastDao; 
@@ -49,9 +47,9 @@ public class PodcastRestService {
 	@Produces({MediaType.TEXT_HTML})	
 	@Transactional
 	public Response createPodcast(Podcast podcast) {
-		Long id = podcastDao.createPodcast(podcast);
+		podcastDao.createPodcast(podcast);
 		
-		return Response.status(201).entity(buildNewPodcastResourceURL(id)).build(); 		
+		return Response.status(201).entity("A new podcast/resource has been created").build(); 		
 	}	
 	
 	/**
@@ -75,9 +73,9 @@ public class PodcastRestService {
 						@FormParam("description") String description
 						) {
 		Podcast podcast = new Podcast(title, linkOnPodcastpedia, feed, description);
-		Long id = podcastDao.createPodcast(podcast);
+		podcastDao.createPodcast(podcast);
 		
-		return Response.status(201).entity(buildNewPodcastResourceURL(id)).build(); 		
+		return Response.status(201).entity("A new podcast/resource has been created").build(); 		
 	}	
 
 	/**
@@ -186,24 +184,6 @@ public class PodcastRestService {
 		return Response.status(200).entity("All podcasts have been successfully removed").build();
 	}	
 	
-	/************************************ PRIVATE METHODS ************************************/	
-	/**
-	 * Build html text pointing to the new created podcast resource
-	 * 
-	 * @param id
-	 * @return
-	 */
-	private String buildNewPodcastResourceURL(Long id) {
-		String podcastUrl = HOST + "/podcasts/" + String.valueOf(id);		
-		StringBuffer message = new StringBuffer("A new podcast has been created at <a href=\"");
-		message.append(podcastUrl);
-		message.append("\"/>");
-		message.append(podcastUrl);
-		message.append("</a>");
-		
-		return message.toString();
-	}
-
 	public void setPodcastDao(PodcastDao podcastDao) {
 		this.podcastDao = podcastDao;
 	}	
