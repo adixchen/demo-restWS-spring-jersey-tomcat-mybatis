@@ -1,5 +1,6 @@
 package org.codingpedia.demo.rest.service;
 
+import org.codingpedia.demo.rest.util.LoggingResponseFilter;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
@@ -19,5 +20,6 @@ public class MyDemoApplication extends ResourceConfig {
 		register(RequestContextFilter.class);
 		register(PodcastRestService.class);
 		register(JacksonFeature.class);		
+		register(LoggingResponseFilter.class);
 	}
 }

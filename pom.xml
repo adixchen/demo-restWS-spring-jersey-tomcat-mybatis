@@ -11,6 +11,8 @@
 	<properties>
 		<spring.version>3.2.6.RELEASE</spring.version>
 		<jetty.version>9.0.7.v20131107</jetty.version> <!-- Adapt this to a version found on http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-maven-plugin/ -->
+		<logback.version>1.1.1</logback.version>
+ 		<jcloverslf4j.version>1.7.6</jcloverslf4j.version>		
 	</properties>
 
 	<repositories>
@@ -59,6 +61,12 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${spring.version}</version>
+			<exclusions>
+ 			   <exclusion>
+ 			      <groupId>commons-logging</groupId>
+ 			      <artifactId>commons-logging</artifactId>
+ 			   </exclusion>
+ 			</exclusions>				
 		</dependency>
 
 		<dependency>
@@ -156,6 +164,18 @@
 			<artifactId>jersey-test-framework-provider-external</artifactId>
 			<version>2.5.1</version>
 		</dependency>
+		
+		<!-- LogBack dependencies --> 
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback.version}</version>
+		</dependency>
+		<dependency>                                    
+			<groupId>org.slf4j</groupId>                
+			<artifactId>jcl-over-slf4j</artifactId>     
+			<version>${jcloverslf4j.version}</version>  
+		</dependency>		
 	</dependencies>
 
 	<build>
@@ -187,6 +207,7 @@
 					<jettyConfig>${project.basedir}/src/main/resources/config/jetty9.xml</jettyConfig>
 					<stopKey>STOP</stopKey>
 					<stopPort>9999</stopPort>
+					<stopWait>5</stopWait>
 					<scanIntervalSeconds>5</scanIntervalSeconds>
 					<scanTargets>
 						<scanTarget>${project.basedir}/src/main</scanTarget>
